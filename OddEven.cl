@@ -1,7 +1,7 @@
 class Number {
 
+   io : IO <- new IO; --for Input & Output operations
    reminder : Int;
-   io : IO <- new IO;
 
    findReminder(number : Int) : Int
    {
@@ -29,23 +29,23 @@ class Number {
 
 class Main
 {
+   io : IO <- new IO; 
    num1 : Number <- new Number;
-   io : IO <- new IO; --for Input & Output operations
    inputNumber : Int; --stores the input Number
 
    main() : Object
    {
      {
 
-      io.out_string("Input: ");
-      inputNumber <- io.in_int();
+      io.out_string("Input: ");  
+      inputNumber <- io.in_int(); --Read a number from the user
 
       io.out_string("\nOutput: \n\n" );
 
       let reminder : Int <- num1.findReminder(inputNumber) in --compute the reminder
       if (reminder = 0)
-      then num1.printAllNumbers(2, inputNumber) --if the reminder is even
-      else num1.printAllNumbers(1, inputNumber) -- if the reminder is odd
+      then num1.printAllNumbers(2, inputNumber) --if the reminder is even (start from number 2, end with the input number)
+      else num1.printAllNumbers(1, inputNumber) -- if the reminder is odd (start from number 1, end with the input number)
       fi;
 
      }
