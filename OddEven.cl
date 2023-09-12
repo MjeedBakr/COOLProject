@@ -1,54 +1,43 @@
-class Number {
-
-   io : IO <- new IO; --for Input & Output operations
-   reminder : Int;
-
-   findReminder(number : Int) : Int
-   {
-      {
-         let quoltient : Int <- number / 2 in
-         reminder <- number - (quoltient * 2);
-      }
-   };
-
+class Main inherits IO
+{
+   inputNumber : Int; --stores the input Number
+   
    printAllNumbers(start: Int, end : Int) : Object
    {
       {
          while (start < end + 1)
          loop 
          {
-         io.out_int(start);
-         io.out_string("\n\n");
+         out_int(start);
+         out_string("\n\n");
          start <- start + 2;
          }
          pool;
       }
    };
-};
-
-
-class Main
-{
-   io : IO <- new IO; 
-   num1 : Number <- new Number;
-   inputNumber : Int; --stores the input Number
 
    main() : Object
    {
+
      {
+      out_string("Input: ");  
+      inputNumber <- in_int(); --Read a number from the user
 
-      io.out_string("Input: ");  
-      inputNumber <- io.in_int(); --Read a number from the user
+      out_string("\nOutput: \n\n" );
 
-      io.out_string("\nOutput: \n\n" );
+      let reminder : Int <- 0 in  
+      {
+         let quoltient : Int <- inputNumber / 2 in  --compute the reminder
+         reminder <- inputNumber - (quoltient * 2);
 
-      let reminder : Int <- num1.findReminder(inputNumber) in --compute the reminder
-      if (reminder = 0)
-      then num1.printAllNumbers(2, inputNumber) --if the reminder is even (start from number 2, end with the input number)
-      else num1.printAllNumbers(1, inputNumber) -- if the reminder is odd (start from number 1, end with the input number)
-      fi;
-
+         if (reminder = 0)
+         then printAllNumbers(2, inputNumber) --if the reminder is even (start from number 2, end with the input number)
+         else printAllNumbers(1, inputNumber) -- if the reminder is odd (start from number 1, end with the input number)
+         fi;
+      }; 
+      
      }
+     
    };
 
 };
