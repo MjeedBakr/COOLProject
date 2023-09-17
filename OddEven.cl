@@ -14,6 +14,7 @@ class Main inherits IO
          }
          pool;
       }
+
    };
 
    main() : Object
@@ -35,7 +36,6 @@ class Main inherits IO
          else printAllNumbers(1, inputNumber) -- if the reminder is odd (start from number 1, end with the input number)
          fi;
       }; 
-      
      }
      
    };
