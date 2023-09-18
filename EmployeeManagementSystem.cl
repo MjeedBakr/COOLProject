@@ -14,7 +14,7 @@ class Employee inherits IO
             isRetired <- (60 < age);
             self;
         }
-    };--end init
+    };--end method initEmployee()
 
     displayRetiredEmployees() : Object
     {
@@ -33,17 +33,17 @@ class Employee inherits IO
     setName(n: String): Object
     {
         name <- n
-    };--end setName
+    };
 
     setAge(a: Int): Object
     {
         age <- a
-    };--end setAge
+    };
 
     setSalary(s: Int): Object
     {
         salary <- s
-    };--end setSalary
+    };
 
     setRetired(s: Bool): Object
     {
@@ -53,24 +53,25 @@ class Employee inherits IO
     getName(): String
     {
         name
-    };--end getName
+    };
 
     getAge(): Int
     {
         age
-    };--end getAge
+    };
 
     getSalary(): Int
     {
         salary
-    };--end getSalary
+    };
 
     getRetired(): Bool
     {
         isRetired
-    };--end getRetired
+    };
 
 }; --end class Employee
+
 
 --class Node represents a node in a linked list
 class Node inherits IO
@@ -86,38 +87,39 @@ class Node inherits IO
             next <- n;
             self;
         }
-    };-- end init
+    };
 
     setData(d: Employee) : Object
     {
             data <- d
-    };--end setData method
+    };
 
     setNext(n: Node) : Object
     {
             next <- n
-    };--end setNext method
+    };
 
     getData() : Employee
     {
         data
-    };--end getData method
+    };
 
-    getNext() : Node
+    getNext() : Node --returns the next node
     {
         next
     };
 
 };--end class Node
 
---class List represents a linked list of employees
+
+-- Class List represents a linked list of employees
 class List inherits Node 
 {
-    head: Node;--first node in the list
-    nil: Node;--null pointer
-    pr: Node;--for printing
+    head: Node;   -- First node in the list
+    nil: Node;    -- Null pointer
+    pr: Node;     -- Used temporary for printing
 
-    --constructor
+    -- Constructor
     initList(h: Node): List
     {
         {
@@ -128,39 +130,39 @@ class List inherits Node
     addEmployee(n: Node): Object
     {
         {
-            if (isvoid head) --if the is empty
+            if (isvoid head) -- if the list is empty
             then 
             {
-                head <- n;
-                head.setData(n.getData());
-                n.setNext(nil);
+                head <- n;  -- Set the head to the new node
+                head.setData(n.getData()); -- Set the attributes of the head
+                n.setNext(nil); -- Set the next node attribute to Null
             }
             else
             {
-               n.setNext(head);
-               head <- n;
-               head.setData(n.getData());
+               n.setNext(head); -- Set the next attribute of the new node to current head
+               head <- n; -- Update the head to the new node
+               head.setData(n.getData()); -- Set the data attribute of the head node
             }
             fi;
         }
-    };-- end add method
+    };-- end addaddEmployee() method
 
-    counter: Int;
+
+    -- Only for employee with a salary > 5000
     calculateBonus(): Object
     {
         {
-            let e: Employee,
-            bonus: Int
+            let e: Employee, -- Temp to hold employee information
+            bonus: Int -- stores the calculated bonus
              in
             {
-                counter <- 0;
-                pr <- head;
+                pr <- head; -- starts from the first employee
 
                 while
                     not(isvoid pr)
                 loop
                 {
-                    e <- pr.getData();
+                    e <- pr.getData(); -- stores the current employee information in e
                     if 5000 <= e.getSalary()
                     then 
                     {
@@ -171,21 +173,19 @@ class List inherits Node
                         bonus <- e.getSalary() + ((e.getSalary() * 20) / 100);
                         out_int(bonus);
 
-                        pr <- pr.getNext();
-                        counter <- counter + 1;
+                        pr <- pr.getNext(); --move to the next employee node
                     }
                     else
                     {
-                        counter <- counter + 1;
-                        pr <- pr.getNext();
+                        pr <- pr.getNext(); --move to the next employee node
                     }
                     fi;
-                }
+                } -- end loop
                 pool;
                 out_string("\n\n");
-            };
+            };-- end let - in
         }
-    };--end calculateBonus method
+    };--end calculateBonus() method
 
     editEmployee(name: String, whatToEdit: Int, modifyAgeOrSalary: Int, modifyName: String) : Object
     {
@@ -198,11 +198,11 @@ class List inherits Node
             while not(isvoid pr)
             loop
             {
-                e <- pr.getData();
+                e <- pr.getData(); -- stores the current employee information in e
                 if (e.getName() = name)
                 then
                 {
-                    e <- pr.getData();
+                    e <- pr.getData(); -- stores the current employee information in e
                     if (whatToEdit = 1)
                     then
                     {
@@ -210,7 +210,7 @@ class List inherits Node
                         e.setName(modifyName);
                         out_string("The new name is: ");
                         out_string(e.getName());
-                        pr <- pr.getNext();
+                        pr <- pr.getNext(); --move to the next employee node
                     } else if (whatToEdit = 2)
                     then
                     {
@@ -226,49 +226,49 @@ class List inherits Node
                         else
                            e.setRetired(false)
                         fi;
-                        pr <- pr.getNext();
+                        pr <- pr.getNext(); --move to the next employee node
                     }
                     else
                     {
                         e.setSalary(modifyAgeOrSalary);
                         out_string("The new Salary is: ");
                         out_int(e.getSalary());
-                        pr <- pr.getNext();
-                    }
+                        pr <- pr.getNext(); --move to the next employee node
+                    } --end inner if-then-else
                     fi fi;
-                }
+                } -- end outer if-then
                 else
                 {
-                    pr <- pr.getNext();
-                }
+                    pr <- pr.getNext(); --move to the next employee node
+                } -- end outed else
                 fi;
-            } 
+            } -- end loop
             pool;
             out_string("\n");
             self;
-        }
-    };--end editEmployee method
+        }-- end let - in
+    };--end editEmployee() method
 
     printRetired() : Object
     {
         let e: Employee
         in
         {
-            pr <- head;
+            pr <- head; -- starts from the first employe
             out_string("Retired Employees: \n");
             while not(isvoid pr)
             loop
             {
-                e <- pr.getData();
+                e <- pr.getData(); -- stores the current employee information in e
                 if (e.getRetired())
                 then
                 {
                     out_string(e.getName().concat("\n"));
-                    pr <- pr.getNext();
+                    pr <- pr.getNext(); --move to the next employee node
                 }
                 else
                 {
-                    pr <- pr.getNext();
+                    pr <- pr.getNext(); --move to the next employee node
                 }
                 fi;
             }
@@ -278,12 +278,7 @@ class List inherits Node
         }
     };--end printRetired method
 
-
-
-
-
-
-};
+};--end List class
 
 
 class Main inherits IO
@@ -301,7 +296,9 @@ class Main inherits IO
             salary: Int
             in 
             {
+                -- Initialize the employee list with an empty node
                 employeesList <- (new List).initList((new Node).initNode((new Employee), nil));
+                
                 while (true)
                 loop
                 {
@@ -311,6 +308,7 @@ class Main inherits IO
                     if (choice = 1)
                     then
                     {
+                        --add new employee to the list
                         out_string("\nEnter employee name: ");
                         name <- in_string();
                         out_string("\nEnter employee age: ");
@@ -322,49 +320,59 @@ class Main inherits IO
                     else if (choice = 2)
                     then
                     {
+                        -- edit employee information
                         out_string("Enter the name of the employee to edit: ");
                         name <- in_string();
                         out_string("Enter a number to edit\n(1) name\n(2) age\n(3) salary \n");
                         let tempChoice : Int
                         in
                         {
+                            -- temp choice to select what to edit
                             tempChoice <- in_int();
                             out_string("Enter the new value: ");
                             if (tempChoice = 1)
                             then
                             {
+                                -- edit the employee name
                                 modifyName <- in_string();
                                 employeesList.editEmployee(name, tempChoice, 1, modifyName);
                             }
                             else
                             {
+                                -- edit the employee age or salary
                                 modifyAgeOrSalary <- in_int();
                                 employeesList.editEmployee(name, tempChoice, modifyAgeOrSalary, "");
                             }
                             fi;
-                        };
+                        };-- end of the inner let - in
                     }
                     else if (choice = 3)
                     then
                     {
+                        -- display retired employees
                         employeesList.printRetired();
                     }
                     else if (choice = 4)
                     then
                     {
+                        -- calculate bonus
                         employeesList.calculateBonus();
                     }
                     else
                     {
+                        -- exit the program
+                        out_string("Exiting......");
                         abort();
-                        0;
-                    }
-                    fi fi fi fi;
-                }
-                pool;
-            };
-        }
-    
+                    } 
+                    fi fi fi fi; --end if statements for menu options
+                
+                } -- end of the loop
+                pool; 
+            
+            }; -- end let - in
         
-    };
-};
+        } -- end main method block statements
+    
+    }; --end main method
+
+}; -- end main class

@@ -1,14 +1,9 @@
-(* to run the program:
-    1- Go to the folder path in the Command Line
-    2- Write "docker compose run cool"
-    3- Write " coolc FILENAME.cl " to compile
-    4- Write " spim FILENAME.s " to run   *)
-    
-class Shape inherits IO{
+class Shape inherits IO 
+{
  
-    printArea(): Object { {0;} };
-    calculateArea(): Int { {0;} };
- };
+    printArea(): Object { {0;} }; --common method between sub classes (no need)
+    calculateArea(): Int { {0;} }; --common method between sub classes (no need)
+ };-- end super class Shape
  
  class Circle inherits Shape
  {
@@ -48,7 +43,7 @@ class Shape inherits IO{
        }
     };
  
- };
+ };-- end sub class Circle
  
  class Rectangle inherits Shape
  {
@@ -84,7 +79,7 @@ class Shape inherits IO{
        }
     };
  
-    init(wdh : Int, het : Int) : Rectangle --constructor to assign the value 
+    init(wdh : Int, het : Int) : Rectangle --constructor to assign the values
     { 
        {
           width <- wdh;
@@ -93,7 +88,7 @@ class Shape inherits IO{
        }
     };
  
- };
+ };-- end sub class Rectangle
  
  class Triangle inherits Shape
  {
@@ -138,7 +133,7 @@ class Shape inherits IO{
        }
     };
  
- };
+ };-- end sub class Triangle
  
  class Main inherits IO
  {
@@ -164,6 +159,6 @@ class Shape inherits IO{
           
           out_string("\n\n");         
        }
-    };
+    };--end main method
 
- };
+ };-- end main class

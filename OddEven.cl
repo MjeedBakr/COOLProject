@@ -15,7 +15,7 @@ class Main inherits IO
          pool;
       }
 
-   };
+   };-- end printAllNumbers method
 
    main() : Object
    {
@@ -40,4 +40,4 @@ class Main inherits IO
      
    };
 
-};
+};--end main class
