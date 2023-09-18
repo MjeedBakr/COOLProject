@@ -5,7 +5,7 @@ class Employee inherits IO
     salary : Int;
     isRetired : Bool;
 
-    init(n: String, a: Int, s: Int) : Employee
+    initEmployee(n: String, a: Int, s: Int) : Employee
     {
         {
             name <- n;
@@ -45,6 +45,11 @@ class Employee inherits IO
         salary <- s
     };--end setSalary
 
+    setRetired(s: Bool): Object
+    {
+      isRetired <- s
+    };
+
     getName(): String
     {
         name
@@ -74,7 +79,7 @@ class Node inherits IO
     next : Node; --points to the next node
 
     --constructor
-    init(d: Employee, n: Node): Node
+    initNode(d: Employee, n: Node): Node
     {
         {
             data <- d;
@@ -113,10 +118,9 @@ class List inherits Node
     pr: Node;--for printing
 
     --constructor
-    inti(h: Node): Node
+    initList(h: Node): List
     {
         {
-            head <- h;
             self;
         }
     };
@@ -133,21 +137,23 @@ class List inherits Node
             }
             else
             {
-                head <- n;
-                head.setData(n.getData());
-                n.setNext(head);
+               n.setNext(head);
+               head <- n;
+               head.setData(n.getData());
             }
             fi;
         }
     };-- end add method
 
+    counter: Int;
     calculateBonus(): Object
     {
         {
             let e: Employee,
-            bonus: Int,
-            counter: Int <- 0 in
+            bonus: Int
+             in
             {
+                counter <- 0;
                 pr <- head;
 
                 while
@@ -158,7 +164,7 @@ class List inherits Node
                     if 5000 <= e.getSalary()
                     then 
                     {
-                        out_string("\nBonus for");
+                        out_string("\nBonus for ");
                         out_string(e.getName());
                         out_string(": ");
 
@@ -181,31 +187,184 @@ class List inherits Node
         }
     };--end calculateBonus method
 
-    
+    editEmployee(name: String, whatToEdit: Int, modifyAgeOrSalary: Int, modifyName: String) : Object
+    {
+        let index: Int,
+        e: Employee --temp for edited employee information
+        in
+        {
+            pr <- head; --start from first employee
+
+            while not(isvoid pr)
+            loop
+            {
+                e <- pr.getData();
+                if (e.getName() = name)
+                then
+                {
+                    e <- pr.getData();
+                    if (whatToEdit = 1)
+                    then
+                    {
+
+                        e.setName(modifyName);
+                        out_string("The new name is: ");
+                        out_string(e.getName());
+                        pr <- pr.getNext();
+                    } else if (whatToEdit = 2)
+                    then
+                    {
+
+                        e.setAge(modifyAgeOrSalary);
+                        out_string("The new age is: ");
+                        out_int(e.getAge());
+                        if (60 < modifyAgeOrSalary)
+                        then 
+                        {
+                           e.setRetired(true);
+                        }
+                        else
+                           e.setRetired(false)
+                        fi;
+                        pr <- pr.getNext();
+                    }
+                    else
+                    {
+                        e.setSalary(modifyAgeOrSalary);
+                        out_string("The new Salary is: ");
+                        out_int(e.getSalary());
+                        pr <- pr.getNext();
+                    }
+                    fi fi;
+                }
+                else
+                {
+                    pr <- pr.getNext();
+                }
+                fi;
+            } 
+            pool;
+            out_string("\n");
+            self;
+        }
+    };--end editEmployee method
+
+    printRetired() : Object
+    {
+        let e: Employee
+        in
+        {
+            pr <- head;
+            out_string("Retired Employees: \n");
+            while not(isvoid pr)
+            loop
+            {
+                e <- pr.getData();
+                if (e.getRetired())
+                then
+                {
+                    out_string(e.getName().concat("\n"));
+                    pr <- pr.getNext();
+                }
+                else
+                {
+                    pr <- pr.getNext();
+                }
+                fi;
+            }
+            pool;
+            out_string("\n");
+            self;
+        }
+    };--end printRetired method
+
+
+
+
+
+
 };
 
 
+class Main inherits IO
+{
+    main(): Object
+    {
+        {
+            let employeesList: List,
+            nil: Node,
+            modifyName: String,
+            modifyAgeOrSalary: Int,
+            choice: Int,
+            name: String,
+            age: Int,
+            salary: Int
+            in 
+            {
+                employeesList <- (new List).initList((new Node).initNode((new Employee), nil));
+                while (true)
+                loop
+                {
+                    out_string("Choose an option:\n1. Add Employee\n2. Edit Employee\n3. Display retired Employees\n4. Calculate Bonus\n5. Exit\n");
+                    choice <- in_int();
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-class Main{
-    main():Int{
+                    if (choice = 1)
+                    then
+                    {
+                        out_string("\nEnter employee name: ");
+                        name <- in_string();
+                        out_string("\nEnter employee age: ");
+                        age <- in_int();
+                        out_string("\nEnter employee salary: ");
+                        salary <- in_int();
+                        employeesList.addEmployee( (new Node).initNode((new Employee).initEmployee(name, age, salary),nil));
+                    }
+                    else if (choice = 2)
+                    then
+                    {
+                        out_string("Enter the name of the employee to edit: ");
+                        name <- in_string();
+                        out_string("Enter a number to edit\n(1) name\n(2) age\n(3) salary \n");
+                        let tempChoice : Int
+                        in
+                        {
+                            tempChoice <- in_int();
+                            out_string("Enter the new value: ");
+                            if (tempChoice = 1)
+                            then
+                            {
+                                modifyName <- in_string();
+                                employeesList.editEmployee(name, tempChoice, 1, modifyName);
+                            }
+                            else
+                            {
+                                modifyAgeOrSalary <- in_int();
+                                employeesList.editEmployee(name, tempChoice, modifyAgeOrSalary, "");
+                            }
+                            fi;
+                        };
+                    }
+                    else if (choice = 3)
+                    then
+                    {
+                        employeesList.printRetired();
+                    }
+                    else if (choice = 4)
+                    then
+                    {
+                        employeesList.calculateBonus();
+                    }
+                    else
+                    {
+                        abort();
+                        0;
+                    }
+                    fi fi fi fi;
+                }
+                pool;
+            };
+        }
     
-        0
+        
     };
 };
